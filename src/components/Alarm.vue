@@ -12,35 +12,21 @@
                 <button @click="modifAlarm">Save</button>
             </div>
         </ul>
-		<button @click="toggleNewAlarm">Ajouter une alarme</button>
-		<div v-if="show_newAlarm">
-			<input type="text" v-model="newLabel" placeholder="Saisir le nom de votre alarme" />
-			<input type="text" v-model="newHours" placeholder="Saisir l'heure" />
-			<input type="text" v-model="newMinutes" placeholder="Saisir la minute"/>
-			<button @click="addAlarm">add</button>
-			<button @click="toggleNewAlarm">cancel</button>
-		</div>
 	</div>
     <audio id="audio1" src="alarm_sound.mp3" preload="auto"></audio>
 </div>
 </template>
 
 <script>
-
 export default {
     name: "Alarm",
+    props: ["alarms"],
     data() {
         return {
             show_Alarm: false,
-            show_newAlarm: false,
             newLabel: "",
             newHours:"",
             newMinutes:"",
-            alarms: [
-            {
-            label: 'test Alarm',
-            date:'03 13, 08 04:20'
-            }], 
         };
     },
 
@@ -57,36 +43,10 @@ export default {
             return dateToFormat.getHours()+"h"+ formatMinutes;
         }
     },
+    mounted(){this.SetTimerCheck},
 
     methods: {
-        addAlarm: function(){
-            let dateActual = new Date();
-            let dateToPush = (dateActual.getMonth() +" "+ dateActual.getDay()+", "+ dateActual.getFullYear()+" "+this.newHours+":"+this.newMinutes);
-            this.alarms.push({label: this.newLabel, date: dateToPush.toString()});
-            this.show_newAlarm = !this.show_newAlarm;
-            this.newLabel ="";
-            this.newHours = " ";
-            this.newMinutes = " ";
-            let time1 = dateActual.getTime();
-            let dateAlarm = new Date(dateToPush);
-            let time2 = dateAlarm.getTime();
-            let interval = time1 - time2;
-            console.log(typeof interval);
-            console.log(interval);
-            let alarmChrono = setTimeout(()=>{this.playAlarm()} ,10000);
-
-        },
-        hide_newAlarm: function(){
-            this.show_newAlarm = false;
-        },
         
-        toggleNewAlarm: function(){
-            this.show_newAlarm = !this.show_newAlarm;
-            this.newLabel ="";
-            this.newHours = " ";
-            this.newMinutes = " ";
-        },
-
         toggleAlarm: function(){
             this.show_Alarm =!this.show_Alarm;
         }, 
@@ -104,9 +64,21 @@ export default {
             let dateActual = new Date();
             let dateToPush = (dateActual.getMonth() +" "+ dateActual.getDay()+", "+ dateActual.getFullYear()+" "+this.newHours+":"+this.newMinutes);
             this.alarms = [{ label: this.newLabel, date: dateToPush }];
-        }
+        },
+
+        SetTimerCheck: function(){
+            setInterval(function(){ this.CheckAlarm(); }, 60000);
+        },
         
-       
+        CheckAlarm: function(){
+            let current = new Date();
+            let date1 = (current.getMonth() +" "+ current.getDay()+", "+ current.getFullYear()+" "+current.getHours() +":"+current.getMinutes());
+            for(let i = 0; i<=this.alarms.length; inc++){
+                if(date1 == alarms[i].date) {
+                    this.playAlarm();
+                }
+            }
+        }
     },
 
 };
