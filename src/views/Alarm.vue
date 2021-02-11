@@ -20,14 +20,13 @@ export default {
   data() {
   	return {
             show_Alarm: false,
-            //show_newAlarm: false,
             newLabel: "",
             newHours:"",
             newMinutes:"",
             alarms: [
             {
             label: 'test Alarm',
-            date:'03 13, 08 04:20'
+            date:'03 13, 2021 04:20'
             }], 
         };
     },

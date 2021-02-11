@@ -1,15 +1,15 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5c5e79db61e40981a1bf",
-    "url": "/vue-app-2/css/app.6bf39c91.css"
+    "revision": "89cff88aa87bb169002b",
+    "url": "/vue-app-2/css/app.a1a59d48.css"
   },
   {
-    "revision": "f7f50a836824a2f66d6726b67328d7cf",
+    "revision": "79fe90fdff22e00c48a9e2f7604c64d7",
     "url": "/vue-app-2/index.html"
   },
   {
-    "revision": "5c5e79db61e40981a1bf",
-    "url": "/vue-app-2/js/app.93b2d8e8.js"
+    "revision": "89cff88aa87bb169002b",
+    "url": "/vue-app-2/js/app.f935b00c.js"
   },
   {
     "revision": "103018742f37cc1328c1",
@@ -18,6 +18,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "a20c75afa1f0a984f0883b71519b2755",
     "url": "/vue-app-2/manifest.json"
+  },
+  {
+    "revision": "00751e6fc05ba2152ea559e35646d613",
+    "url": "/vue-app-2/media/alarm_sound.00751e6f.mp3"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
