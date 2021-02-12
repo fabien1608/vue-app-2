@@ -3,13 +3,13 @@
 	<h1 class = "title">Mes Réveils</h1>
 	<div class ="alarm">
 		<ul>
-            <li v-for="alarm in alarms">{{ alarm.label }}<span> {{alarm.date | format}}</span>
-            <button @click="toggleAlarm" id="symbol">✎</button><button @click="delateAlarm">&#128465;</button></li>
+            <li v-for="(alarm , index) in alarms">{{ alarm.label }}<span> {{alarm.date | format}}</span>
+            <button @click="toggleAlarmEdit(index)" id="symbol">✎</button><button @click="delateAlarm(index)">&#128465;</button></li>
             <div class = "hide-div" v-if="show_Alarm">
                 <input type="text" v-model="newLabel" placeholder="Saisir le nom de votre alarme" />
                 <input type="number" v-model="newHours" placeholder="Saisir l'heure" />
                 <input type="number" v-model="newMinutes" placeholder="Saisir la minute"/>
-                <button @click="modifAlarm">Save</button>
+                <button @click="modifAlarm()">Save</button>
             </div>
         </ul>
 	</div>
@@ -29,6 +29,7 @@ export default {
             newLabel: "",
             newHours:"",
             newMinutes:"",
+            indexToModif:0,
         };
     },
 
@@ -65,11 +66,17 @@ export default {
         
         toggleAlarm: function(){
             this.show_Alarm =!this.show_Alarm;
+
+        },
+
+        toggleAlarmEdit: function(index){
+            this.toggleAlarm();
+            this.indexToModif = index;
+
         }, 
 
-        delateAlarm: function(){
-            let indexWanted =  this.alarms.indexOf(this.alarms.label);
-            this.alarms.splice(indexWanted,1);
+        delateAlarm: function(index){
+            this.alarms.splice(index,1);
         },
 
         playAlarm: function(){
@@ -94,20 +101,21 @@ export default {
                 this.newMinutes="0"+this.newMinutes
             }
             let dateToPush = (formatMonth +" "+ formatDay+", "+ dateActual.getFullYear()+" "+this.newHours+":"+this.newMinutes);
-            this.alarms = [{ label: this.newLabel, date: dateToPush }];
-            this.toggleAlarm();
+            
+            this.alarms[this.indexToModif].label = this.newLabel;
+            this.alarms[this.indexToModif].date = dateToPush;
+            this.show_Alarm =!this.show_Alarm;
         },
 
         //toute les minutes lance la fonction CheckAlarm    
         SetTimerCheck: function(){
-            setInterval(()=>{ this.CheckAlarm() }, 60000);
+            setInterval(()=>{ this.CheckAlarm() }, 5000);
             
             
         },
 
         //On vérifie que la date actuelle correspont à une date de notre liste d'alarme.
         CheckAlarm: function(){
-            console.log("test");
             let current = new Date();
             let formatMonth = current.getMonth();
             let formatDay = current.getDay();
@@ -128,7 +136,8 @@ export default {
             let date1 = (formatMonth+" "+formatDay+", "+ current.getFullYear()+" "+formatHours+":"+formatMinutes);
             for(let i = 0; i<this.alarms.length; i++){
                 if(date1 == this.alarms[i].date) {
-                    this.playAlarm();
+                    //this.playAlarm();
+                    this.alarms[i].label="je sonne";
                 }
             }
         }
