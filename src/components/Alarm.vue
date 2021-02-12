@@ -107,16 +107,25 @@ export default {
 
         //On vérifie que la date actuelle correspont à une date de notre liste d'alarme.
         CheckAlarm: function(){
+            console.log("test");
             let current = new Date();
             let formatMonth = current.getMonth();
             let formatDay = current.getDay();
+            let formatHours = current.getHours();
+            let formatMinutes = current.getMinutes();
+            if (formatHours<10){
+                formatHours="0"+formatHours;
+            }
+            if (formatMinutes<10){
+                formatMinutes="0"+formatMinutes;
+            }
             if (formatMonth<10){
                 formatMonth="0"+formatMonth;
             }
             if (formatDay<10){
                 formatDay="0"+formatDay;
             }
-            let date1 = (formatMonth+" "+formatDay+", "+ current.getFullYear()+" "+current.getHours() +":"+current.getMinutes());
+            let date1 = (formatMonth+" "+formatDay+", "+ current.getFullYear()+" "+formatHours+":"+formatMinutes);
             for(let i = 0; i<this.alarms.length; i++){
                 if(date1 == this.alarms[i].date) {
                     this.playAlarm();
